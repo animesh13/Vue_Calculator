@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Simple Calculator v1.0</title>
+	<link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" href="vendor/font-awesome/css/all.css">
+</head>
+<body>
+
+	<div id="app" class="mt-3">
+		<h4 class="ml-3" v-text="header"></h4>
+		
+		<p class="ml-3" v-text="description"></p>
+	  <div class="container-fluid mt-4">
+	  	<div class="alert alert-danger" v-if="message" ><button type="button" class="close" data-dismiss="alert" v-on:click="closealert" name="closealert">x</button>{{ message }}</div>
+	  		
+	  		<div class="cal p-5 col-sm-4" style="border: 1px solid green; ">
+	  			<input type="text" name="1st" class="form-control text-right pt-5" style="font-color:black; font-size:26px;width:332px; height:80px; border:1px solid green" v-model="input">
+	  			<div class="row mt-2 ">
+		  			<div class="col ">
+		  				
+		  				<button class="btn btn-outline-success py-2" style="width:80px" v-on:click="backspace" name="backspace">CE</button>
+		  				<button class="btn btn-outline-success py-2" style="width:80px" v-on:click="open" name="open">(</button>
+		  				<button class="btn btn-outline-success py-2" style="width:80px" v-on:click="close" name="close">)</button>
+		  				<button class="btn btn-outline-success py-2" style="width:80px" v-on:click="divide" name="divide">/</button>
+		  			</div>
+		  			
+		  		</div>
+		  		<div class="row mt-2">
+		  			<div class="col">
+		  				<button class="btn btn-outline-success py-2" style="width:80px" v-on:click="seven" name="seven">7</button>
+		  				<button class="btn btn-outline-success py-2" style="width:80px" v-on:click="eight" name="eight">8</button>
+		  				<button class="btn btn-outline-success py-2" style="width:80px" v-on:click="nine" name="nine">9</button>
+		  				<button class="btn btn-outline-success py-2" style="width:80px" v-on:click="multiply" name="multiply">*</button>
+		  			</div>
+		  			
+		  		</div>
+		  		<div class="row mt-2">
+		  			<div class="col">
+		  				<button class="btn btn-outline-success py-2" style="width:80px" v-on:click="four" name="four">4</button>
+		  				<button class="btn btn-outline-success py-2" style="width:80px" v-on:click="five" name="five">5</button>
+		  				<button class="btn btn-outline-success py-2" style="width:80px" v-on:click="six" name="six">6</button>
+		  				<button class="btn btn-outline-success py-2" style="width:80px" v-on:click="minus" name="minus">-</button>
+		  			</div>
+		  			
+		  		</div>
+		  		<div class="row mt-2">
+		  			<div class="col">
+		  				<button class="btn btn-outline-success py-2" style="width:80px" v-on:click="one" name="one">1</button>
+		  				<button class="btn btn-outline-success py-2" style="width:80px" v-on:click="two" name="two">2</button>
+		  				<button class="btn btn-outline-success py-2" style="width:80px" v-on:click="three" name="three">3</button>
+		  				<button class="btn btn-outline-success py-2" style="width:80px" v-on:click="plus" name="plus">+</button>
+		  			</div>
+		  			
+		  		</div>
+		  		<div class="row mt-2">
+		  			<div class="col">
+		  				<button class="btn btn-outline-success py-2" style="width:80px" v-on:click="clear" name="clear">AC</button>
+		  				<button class="btn btn-outline-success py-2" style="width:80px" v-on:click="zero" name="zero">0</button>
+		  				<button class="btn btn-outline-success py-2" style="width:80px" v-on:click="dot" name="dot">.</button>
+		  				<button class="btn btn-outline-success py-2" style="width:80px" onclick="infixeval(texttoinfix(app.input).split(' '))">=</button>
+		  			</div>
+		  			
+		  		</div>
+	  		</div>
+	  		
+	  </div>
+	</div>
+
+
+
+	<script src="js/jquery3.4.1.js"></script>
+    <script src="js/popper.js"></script>
+    <script type="text/javascript" src="vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/vue.js"></script>
+ 	
+    <script>
+    	 
+    	var app = new Vue({
+		  el: '#app',
+		  data: {
+		    header: 'Simple Calculator v1.0',
+		    description: 'This is a simple calculator application using Vue JS. You are copletely free to use the code.',
+		    result : '0',
+		    input : '',
+		    operator: '',
+		    message: ''
+		  },
+		  methods: {
+		    plus: function () {
+		      this.input = this.input+'+'
+		    },
+		    minus: function () {
+		      this.input = this.input+'-'
+		    },
+		    multiply: function () {
+		      this.input = this.input+'*'
+		    },
+		    divide: function () {
+		      this.input = this.input+'/'
+		    },
+		    seven: function () {
+		      this.input = this.input+'7'
+		    },
+		    eight: function () {
+		      this.input = this.input+'8'
+		    },
+		    nine: function () {
+		      this.input = this.input+'9'
+		    },
+		    zero: function () {
+		      this.input = this.input+'0'
+		    },
+		    one: function () {
+		      this.input = this.input +'1'
+		    },
+		    two: function () {
+		      this.input = this.input+'2'
+		    },
+		    three: function () {
+		      this.input = this.input+'3'
+		    },
+		    four: function () {
+		      this.input = this.input+'4'
+		    },
+		    five: function () {
+		      this.input = this.input+'5'
+		    },
+		    six: function () {
+		      this.input = this.input+'6'
+		    },
+		    dot: function () {
+		      this.input = this.input+'.'
+		    },
+		    clear: function () {
+		      this.input = ''
+		    },
+		    backspace: function () {
+		      this.input= this.input.substr(0,this.input.length-1)
+		    },
+		    open: function () {
+		      //this.input = this.input+'('
+		      this.message = "Bracket is not added Yet. It will be added soon."
+		    },
+		    close: function () {
+		      //this.input = this.input+')'
+		      this.message = "Bracket is not added Yet. It will be added soon."
+		    },
+		    closealert: function () {
+		      this.message = ""
+		    }
+		  }
+		})
+
+    </script>
+    <script>
+
+    	// This stack class is taken from Geeksforgeeks
+ 		class Stack { 
+  
+		    // Array is used to implement stack 
+		    constructor() 
+		    { 
+		        this.items = []; 
+		    } 
+		  
+		    // Functions to be implemented 
+		    // push(item) 
+		    // pop() 
+		    // peek() 
+		    // isEmpty() 
+		    // printStack() 
+		    // push function 
+			push(element) 
+			{ 
+				// push element into the items 
+				this.items.push(element); 
+			} 
+			// pop function 
+			pop() 
+			{ 
+				// return top most element in the stack 
+				// and removes it from the stack 
+				// Underflow if stack is empty 
+				if (this.items.length == 0) 
+					return "Underflow"; 
+				return this.items.pop(); 
+			} 
+			// peek function 
+			peek() 
+			{ 
+				// return the top most element from the stack 
+				// but does'nt delete it. 
+				return this.items[this.items.length - 1]; 
+			} 
+
+			// isEmpty function 
+			isEmpty() 
+			{ 
+			    // return true if stack is empty 
+			    return this.items.length == 0; 
+			} 
+
+			// printStack function 
+			printStack() 
+			{ 
+			    var str = ""; 
+			    for (var i = 0; i < this.items.length; i++) 
+			        str += this.items[i] + " "; 
+			    return str; 
+			} 
+
+
+		} 
+
+		
+
+		
+
+		function infixeval(expression){
+			
+			var operand_stack = new Stack();
+			var operator_stack = new Stack();
+			var operator_precedence = 0;
+			for (var i = 0; i < expression.length; i++){
+				var c =expression[i];
+			    if (!isNaN(c)){
+			    	operand_stack.push(c - '0');
+			    }
+			    else{
+			    	curr_precedence = precedence(c);
+			    	priv_precedence = precedence(operator_stack.peek());
+			    	if(operator_stack.isEmpty() || curr_precedence > priv_precedence){
+			    		operator_stack.push(c);
+			    	}
+			    	else{
+			    		while(curr_precedence <= precedence(operator_stack.peek())){
+			    			process();
+			    			if(operator_stack.isEmpty()){
+			    				break;
+			    			}
+
+			    		}
+			    		
+			    		operator_stack.push(c);
+			    	}
+			    }
+
+			}
+			while(!operator_stack.isEmpty()){
+				process();
+			}
+			app.input = operand_stack.pop();
+
+			function precedence(operator){
+				if(operator=='*' || operator== '/') return 2;
+				else return 1;
+			}
+			function process(){
+				var operator = operator_stack.pop();
+				var val1 = operand_stack.pop();
+				var val2 = operand_stack.pop();
+				var res = 0;
+				if(operator == '+') res = val1 + val2;
+				else if(operator == '-' && operator_stack.isEmpty()) res = val2 - val1;
+				else if(operator == '-' && !operator_stack.isEmpty()) res = val1 + val2;
+				else if(operator == '*') res = val1 * val2;
+				else if(operator == '/') res = val2 / val1;
+				operand_stack.push(res);
+			}
+		}
+
+
+
+		// This function takes the input and make it an infix expression string with adding spaces on both sides of an operator.
+		function texttoinfix(expression) {
+
+			var res = '';
+			for(var i=0 ; i < expression.length; i++){
+				if(expression[i]=='+'||expression[i]=='-'||expression[i]=='*'||expression[i]=='/'){
+					res = res + ' ' + expression[i] + ' ';
+				}
+				else if(!isNaN(expression[i])){
+					res = res + expression[i];
+				}
+				else{
+					app.message= 'Please input valid numbers to get the exact result';
+				}
+			}
+			return res;
+		}
+ 	</script>
+</body>
+</html>
