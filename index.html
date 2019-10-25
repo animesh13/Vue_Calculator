@@ -136,7 +136,8 @@
 		      this.input = ''
 		    },
 		    backspace: function () {
-		      this.input= this.input.substr(0,this.input.length-1)
+		      this.input= this.input.toString()
+		      this.input = this.input.substr(0,this.input.length-1)
 		    },
 		    open: function () {
 		      //this.input = this.input+'('
@@ -280,7 +281,7 @@
 				if(expression[i]=='+'||expression[i]=='-'||expression[i]=='*'||expression[i]=='/'){
 					res = res + ' ' + expression[i] + ' ';
 				}
-				else if(!isNaN(expression[i])){
+				else if(!isNaN(expression[i]) || expression[i]=='.'){
 					res = res + expression[i];
 				}
 				else{
